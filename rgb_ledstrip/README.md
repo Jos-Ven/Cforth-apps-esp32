@@ -9,7 +9,7 @@ put their lights on when it is getting dark and you are at home.
 
 A zen-like light show is also possible.
 
-Each module has its own web-site to control its led strip/device and device independent.
+Each module has its own web-site to control its led strip and its device.
 
 For installation see the start in the file app.fth
 
