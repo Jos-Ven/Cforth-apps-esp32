@@ -1,4 +1,4 @@
-In combination with the https://github.com/Jos-Ven/A-smart-home-in-Forth
+In combination with the  A-smart-home-in-Forth
 you can control multiple led strips on multiple ESP32 modules in 1 go.
 
 One Esp32 may contain 3 (PWM) RGB-ledstrips and 1 auxiliary device such as a switch
