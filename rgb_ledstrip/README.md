@@ -13,7 +13,7 @@ Each module has its own web-site to control its led strip and its device.
 
 For installation see the start in the file app.fth
 
-IF THEN or CASE statements are not used to handle the strings from a GET request.
+IF THEN or CASE statements are not used to handle the strings from GET requests.
 The dictionary system of Forth is used to handle those strings.
 That saved me a lot of coding.
 
