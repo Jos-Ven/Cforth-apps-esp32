@@ -1,4 +1,10 @@
 # Cforth-apps-esp32
-Here you find an extra Cforth application for the Esp32.
+Here you find an extra Cforth applications for the Esp32.
+Make and flash ~/cforth/build/esp32-extra
 
-It needs https://github.com/Jos-Ven/cforth 
+From:
+https://github.com/MitchBradley/cforth
+or
+https://github.com/Jos-Ven/cforth
+
+
