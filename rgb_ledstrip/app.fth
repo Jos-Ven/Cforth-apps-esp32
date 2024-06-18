@@ -1,6 +1,11 @@
 0 [if] \ 15-06-2024, Installation for rgb_ledstrip_server.fth on an ESP32:
 
-Intended for an Esp32 with Cforth from: https://github.com/Jos-Ven/cforth
+Intended for an Esp32 with Cforth from:
+https://github.com/MitchBradley/cforth
+or
+https://github.com/Jos-Ven/cforth
+
+Make and flash: ~/cforth/build/esp32-extra
 
 1) Backup the original ~\cforth\src\app\esp32-extra\app.fth
 2) Copy this  app.fth   and uart_window.fth   and rgb_ledstrip_tools.fth
