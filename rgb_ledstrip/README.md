@@ -17,3 +17,6 @@ IF THEN or CASE statements are not used to handle the strings from a GET request
 The dictionary system of Forth is used to handle those strings.
 That saves a lot of coding.
 
+Here is how the interface looks:
+
+![LightControl](https://github.com/Jos-Ven/Cforth-apps-esp32/assets/47664564/eebb714d-2bd7-4f06-bc09-03ad5c3dd28d)
