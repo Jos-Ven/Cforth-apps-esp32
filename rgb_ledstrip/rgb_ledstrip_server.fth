@@ -1,8 +1,7 @@
 s" MachineSettings.fth" file-exist? [if] fl MachineSettings.fth [then]
-marker    rgb_ledstrip5_server.fth   cr lastacf .name #19 to-column .( 11-06-2024 )
+marker    rgb_ledstrip5_server.fth   cr lastacf .name #19 to-column .( 20-06-2024 )
 
-\ Intended for an Esp32 with Cforth from: https://github.com/Jos-Ven/cforth
-\ needs in flash:
+\  Flash the following 6 files in flash memory
 needs wifi-station-on extra.fth
 needs time>mmhh       tools/timediff.fth
 needs Html	      tools/webcontrols.fth
@@ -10,7 +9,6 @@ needs wsPing          tools/wsping.fth
 needs init-extra-uart uart_window.fth
 needs pwm-frequency   rgb_ledstrip_tools.fth
 
-\ needs in the file-system of the esp32:
 needs SetLedDefaults rgb_leds_conf.fth \ Edit to the default settings if needed
 
 
@@ -46,6 +44,17 @@ SetLedDefaults allocate-mcpwm-leds
       if   <CssBlueButton>
       else <CssButton>
       then  ;
+
+also html
+
+[ifndef] SitesIndex
+
+: SitesIndex ( -- )
+    s" http://192.168.0.201:8080/SitesIndex" s" Index"  <<TopLink>> ;
+[else] : SitesIndex ( -- ) ;
+[then]
+
+previous
 
 : led-control-header ( - )
      +HTML| <tr valign="top" style="font-size: 16px; font-weight: bold;">|
@@ -426,7 +435,7 @@ FORTH DEFINITIONS ALSO HTML
 
 : Schedule-page  ( - )
    start-html-page
-   [ifdef]  SitesIndex  SitesIndex [then]
+   SitesIndex
    s" /home"    s" home"      <<TopLink>>
    +TimeDate/legend
    ['] add-options-dropdown html-schedule-list ;
@@ -522,7 +531,7 @@ FORTH DEFINITIONS
 [else] create-timer:  TGettimer
 [then]
 
-60 1000 * CorTiming constant TimeTGettimer
+60 1000 * CorTiming s>f fconstant TimeTGettimer
 -1 TGettimer !
 
 : OnNotimeReceived ( - )
@@ -537,18 +546,19 @@ FORTH DEFINITIONS
                     Change3LedsToNewColor
               else  1000 to poll-interval
               then
-           GotTime? 0=
-              if    OnNotimeReceived
-              else  schedule  schedule-entry \ See also TcpTime
-              then
-           #1800 RebootNotConnected
+              time-server$ 0<>
+                  if GotTime? 0=
+                     if    OnNotimeReceived
+                     else  schedule  schedule-entry \ See also TcpTime
+                     then  #1800 RebootNotConnected
+                  then
      else  false to save-sliders?  http-responder
      then ;
 
 
 : send_ask_time ( - )
    time-server$ 0<>
-     if     cr ." Ask time from: " 100 ms time-server$ count type
+     if    arpnew 10 ms cr ." Ask time from: " 100 ms time-server$ count type
             ms@ >r asktime ms@ r> - dup space . ." ms "  1000 >
                  if   cr ." Stream failed. Rebooting." 1500 ms
                       esp-wifi-stop 200 ms 2 deep-sleep
@@ -556,7 +566,6 @@ FORTH DEFINITIONS
      then ;
 
 : serve-http-loop  ( -- )
-   arpnew 10 ms
    send_ask_time                     \ Note: time-server$ MUST be filled
    cr ." Running the rgb_ledstrip_server..." cr
    begin  poll-interval responder     \   responder executes poll-actions
@@ -584,7 +593,6 @@ ALSO TCP/IP
      slider-file$ count file-exist?
          if  load-ledstrips
          then
-     .levels cr
      init-seed newparms
      ['] poll-actions  to responder
      #80 http-listen                 \ To start the server
