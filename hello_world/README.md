@@ -1,2 +1,2 @@
-To demonstrate 3 ways to compile hello_world.
-
+Using 4 ways to approach hello_world.
+3 in hello_world.fth and one in HelloWorld.pdf. 
